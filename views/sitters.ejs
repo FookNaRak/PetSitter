@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>พี่เลี้ยงสัตว์</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-indigo-50 min-h-screen font-sans">
+  <%- include('partials/header', { user: user }) %>
+
+  <section class="py-16 px-6 text-center">
+    <h2 class="text-3xl font-bold text-indigo-700 mb-10">รายชื่อพี่เลี้ยง</h2>
+    <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-6">
+      <% sitters.forEach(s => { %>
+        <div class="bg-white p-6 rounded-2xl shadow">
+          <h3 class="text-xl font-semibold text-indigo-600 mb-2"><%= s.name %></h3>
+          <p>ประสบการณ์: <%= s.experience %></p>
+          <p>ราคา: <%= s.price %></p>
+          <p>พื้นที่: <%= s.area %></p>
+          <a href="/sitters/<%= s.id %>" class="mt-2 inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">ดูโปรไฟล์</a>
+        </div>
+      <% }) %>
+    </div>
+  </section>
+</body>
+</html>

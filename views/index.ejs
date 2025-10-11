@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🐾 Pet Sitter Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-200 min-h-screen font-sans">
+  
+  <!-- Header -->
+  <%- include('partials/header', { user: user }) %>
+
+  <!-- Hero Section -->
+  <section class="text-center py-16 px-6">
+  <h2 class="text-4xl font-bold text-indigo-700 mb-4">หาพี่เลี้ยงสัตว์ที่คุณวางใจได้ 🐕🐾</h2>
+  <p class="text-lg text-gray-700 max-w-2xl mx-auto mb-8">
+    แพลตฟอร์มสำหรับเจ้าของสัตว์เลี้ยงที่ต้องการหาพี่เลี้ยงมืออาชีพใกล้บ้าน 
+    พร้อมระบบจองคิว รีวิว และติดตามสถานะได้ง่ายในที่เดียว
+  </p>
+
+  <% if(!user){ %>
+    <a href="/register" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl shadow-md text-lg">เริ่มต้นใช้งาน</a>
+  <% } else { %>
+    <a href="/sitters" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl shadow-md text-lg">ดูพี่เลี้ยง</a>
+
+    <% if(!user.is_sitter){ %>
+      <a href="/sitters/register" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl shadow-md text-lg mt-4 inline-block">
+        สมัครพี่เลี้ยง
+      </a>
+    <% } %>
+  <% } %>
+</section>
+
+
+  <!-- Features -->
+  <section id="features" class="bg-white py-16 px-6">
+    <div class="max-w-5xl mx-auto text-center">
+      <h3 class="text-3xl font-bold text-indigo-700 mb-10">ฟีเจอร์หลักของเรา</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-indigo-50 p-6 rounded-2xl shadow">
+          <h4 class="text-xl font-semibold text-indigo-600 mb-3">🐾 โปรไฟล์พี่เลี้ยง</h4>
+          <p>ดูข้อมูลพี่เลี้ยงสัตว์ เช่น ประสบการณ์ ราคา และพื้นที่ให้บริการ ก่อนตัดสินใจจอง</p>
+        </div>
+        <div class="bg-indigo-50 p-6 rounded-2xl shadow">
+          <h4 class="text-xl font-semibold text-indigo-600 mb-3">📅 ระบบจองคิว</h4>
+          <p>จองวันและเวลาที่ต้องการ พร้อมระบบยืนยันสถานะและแจ้งเตือนอัตโนมัติ</p>
+        </div>
+        <div class="bg-indigo-50 p-6 rounded-2xl shadow">
+          <h4 class="text-xl font-semibold text-indigo-600 mb-3">⭐ รีวิวและคะแนน</h4>
+          <p>อ่านรีวิวจากเจ้าของสัตว์เลี้ยงคนอื่น ๆ เพื่อช่วยให้คุณเลือกพี่เลี้ยงที่ดีที่สุด</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section id="how" class="py-16 bg-gradient-to-r from-indigo-50 to-blue-100 px-6">
+    <div class="max-w-5xl mx-auto text-center">
+      <h3 class="text-3xl font-bold text-indigo-700 mb-10">วิธีการใช้งานง่าย ๆ</h3>
+      <div class="grid md:grid-cols-4 gap-8">
+        <div class="bg-white p-6 rounded-2xl shadow">
+          <div class="text-3xl mb-2">1️⃣</div>
+          <p>สมัครสมาชิก หรือเข้าสู่ระบบ</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow">
+          <div class="text-3xl mb-2">2️⃣</div>
+          <p>ค้นหาพี่เลี้ยงใกล้คุณ พร้อมดูโปรไฟล์</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow">
+          <div class="text-3xl mb-2">3️⃣</div>
+          <p>ทำการจองคิวผ่านระบบออนไลน์</p>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow">
+          <div class="text-3xl mb-2">4️⃣</div>
+          <p>รอการยืนยัน และตรวจสอบสถานะได้ทันที</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-16 bg-white px-6 text-center">
+    <h3 class="text-3xl font-bold text-indigo-700 mb-6">ติดต่อเรา</h3>
+    <p class="text-gray-700 mb-4">มีคำถามหรือต้องการร่วมงานกับเรา? ติดต่อได้ทางอีเมล</p>
+    <a href="mailto:contact@petsitter.com" class="text-indigo-600 font-semibold hover:underline">contact@petsitter.com</a>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-indigo-700 text-white text-center py-4 mt-10">
+    <p>© 2025 Pet Sitter Platform. สงวนลิขสิทธิ์.</p>
+  </footer>
+</body>
+</html>
