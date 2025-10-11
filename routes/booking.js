@@ -1,23 +1,61 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../database');
+const db = require('../config/database');
 
-// หน้า booking form
+// GET: หน้าแบบฟอร์มจอง
 router.get('/:sitterId', (req, res) => {
-  if(!req.session.user) return res.redirect('/login');
-  res.render('booking', { sitterId: req.params.sitterId, user: req.session.user });
+  if (!req.session.user) return res.redirect('/login');
+
+  const sitterId = req.params.sitterId;
+  const userId = req.session.user.id;
+
+  const sqlCheck = `SELECT user_id FROM sitters WHERE id = ?`;
+  db.get(sqlCheck, [sitterId], (err, sitter) => {
+    if (err) {
+      return res.render('booking', { sitterId, user: req.session.user, error: 'เกิดข้อผิดพลาดในระบบ', success: null });
+    }
+    if (!sitter) {
+      return res.render('booking', { sitterId, user: req.session.user, error: 'ไม่พบพี่เลี้ยงที่คุณเลือก', success: null });
+    }
+    if (sitter.user_id === userId) {
+      return res.render('booking', { sitterId, user: req.session.user, error: '⚠️ คุณไม่สามารถจองพี่เลี้ยงของตัวเองได้', success: null });
+    }
+
+    // ✅ ไม่มี error
+    res.render('booking', { sitterId, user: req.session.user, error: null, success: null });
+  });
 });
 
-// POST booking
-router.post('/:sitterId', (req, res) => {
-  if(!req.session.user) return res.redirect('/login');
-  const { date, time } = req.body;
-  const user_id = req.session.user.id;
 
-  const sql = `INSERT INTO bookings (user_id, sitter_id, date, time) VALUES (?, ?, ?, ?)`;
-  db.run(sql, [user_id, req.params.sitterId, date, time], function(err){
-    if(err) return res.send(err.message);
-    res.send('จองคิวสำเร็จ! <a href="/sitters">กลับไปหน้ารายชื่อ</a>');
+// POST: ยืนยันการจอง
+router.post('/:sitterId', (req, res) => {
+  if (!req.session.user) return res.redirect('/login');
+
+  const sitterId = req.params.sitterId;
+  const userId = req.session.user.id;
+  const { date, time } = req.body;
+
+  const sqlCheck = `SELECT user_id FROM sitters WHERE id = ?`;
+  db.get(sqlCheck, [sitterId], (err, sitter) => {
+    if (err) {
+      return res.render('booking', { sitterId, user: req.session.user, error: 'เกิดข้อผิดพลาดในระบบ', success: null });
+    }
+    if (!sitter) {
+      return res.render('booking', { sitterId, user: req.session.user, error: 'ไม่พบพี่เลี้ยงที่คุณเลือก', success: null });
+    }
+    if (sitter.user_id === userId) {
+      return res.render('booking', { sitterId, user: req.session.user, error: '⚠️ ไม่สามารถจองตัวเองได้', success: null });
+    }
+
+    // ✅ insert
+    const sqlInsert = `INSERT INTO bookings (user_id, sitter_id, date, time) VALUES (?, ?, ?, ?)`;
+    db.run(sqlInsert, [userId, sitterId, date, time], function (err2) {
+      if (err2) {
+        return res.render('booking', { sitterId, user: req.session.user, error: 'เกิดข้อผิดพลาดขณะจอง', success: null });
+      }
+
+      res.render('booking', { sitterId, user: req.session.user, error: null, success: '🎉 จองคิวสำเร็จแล้ว!' });
+    });
   });
 });
 

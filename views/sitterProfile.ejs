@@ -7,10 +7,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-indigo-50 min-h-screen font-sans">
-
   <%- include('partials/header', { user: user }) %>
 
-  <!-- ข้อมูลพี่เลี้ยง -->
   <section class="py-16 px-6 text-center max-w-3xl mx-auto bg-white rounded-2xl shadow">
     <h2 class="text-3xl font-bold text-indigo-700 mb-4"><%= sitter.name %></h2>
     <p>ประสบการณ์: <%= sitter.experience %> ปี</p>
@@ -18,23 +16,17 @@
     <p>พื้นที่ให้บริการ: <%= sitter.location %></p>
   </section>
 
-  <!-- ปุ่มจอง / รีวิว -->
   <section class="py-6 px-6 max-w-3xl mx-auto text-center">
     <% if(user){ %>
       <div class="space-x-4">
-        <a href="/booking/<%= sitter.id %>" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold">
-          จองพี่เลี้ยง
-        </a>
-        <a href="/reviews/<%= sitter.id %>" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg font-semibold">
-          เขียนรีวิว
-        </a>
+        <a href="/booking/<%= sitter.id %>" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-semibold">จองพี่เลี้ยง</a>
+        <a href="/reviews/<%= sitter.id %>" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-2 rounded-lg font-semibold">เขียนรีวิว</a>
       </div>
     <% } else { %>
       <p class="text-gray-600">ต้อง <a href="/login" class="text-indigo-600 hover:underline">เข้าสู่ระบบ</a> เพื่อจองหรือรีวิว</p>
     <% } %>
   </section>
 
-  <!-- รีวิวของพี่เลี้ยง -->
   <section class="py-8 px-6 max-w-3xl mx-auto">
     <h3 class="text-2xl font-semibold text-indigo-700 mb-4">รีวิวจากเจ้าของสัตว์</h3>
     <% if (reviews.length === 0) { %>
@@ -54,6 +46,5 @@
       </div>
     <% } %>
   </section>
-
 </body>
 </html>

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../database');
+const db = require('../config/database');
 const bcrypt = require('bcrypt');
 
 // หน้าแรก
@@ -8,7 +8,7 @@ router.get('/', (req, res) => res.render('index', { user: req.session.user }));
 
 // หน้า login
 router.get('/login', (req, res) => res.render('login'));
-
+  
 // หน้า register
 router.get('/register', (req, res) => res.render('register'));
 
