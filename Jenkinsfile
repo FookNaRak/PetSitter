@@ -12,7 +12,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo '🐳 Building Docker image...'
-                sh 'docker-compose down || true'
+                sh 'docker-compose down --remove-orphans || true'
                 sh 'docker-compose build --no-cache'
             }
         }
@@ -20,7 +20,8 @@ pipeline {
         stage('Deploy Containers') {
             steps {
                 echo '🚀 Deploying updated containers...'
-                sh 'docker-compose up -d'
+                // ใช้ --force-recreate เพื่อสร้าง container ใหม่เสมอ
+                sh 'docker-compose up -d --force-recreate'
             }
         }
     }
